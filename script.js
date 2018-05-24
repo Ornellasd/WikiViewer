@@ -1,5 +1,4 @@
 function ajax (keyword) { //AJAX request
-
   $.ajax({
     url: "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=" + keyword + "&prop=info&inprop=url&utf8=&format=json",
     dataType: "jsonp",
@@ -7,10 +6,7 @@ function ajax (keyword) { //AJAX request
       console.log(response.query);
       if (response.query.searchinfo.totalhits === 0) {
         $("#results").text("NOTHING FOUND");
-      }
-
-      else {
-        //console.log(response);
+      } else {
         showResults(response);
       }
     },
@@ -24,16 +20,11 @@ function showResults (callback) {
   $("ul").empty();
   for (var i = 0; i <= 9; i++) {
     var title = callback.query.search[i].title;
+    var summary = callback.query.search[i].snippet;
     var titleClean = title.split(" ").join("_");
-    url = "https://en.wikipedia.org/wiki/" + titleClean;
-    console.log(title);
+    var url = "https://en.wikipedia.org/wiki/" + titleClean;
     console.log(url);
-    //$("#results").text(title + ': ' + url);
-
-
-    $("#results").append("<div><ul> <li id='result'" + i + ">" + title +"</li> </ul></div>");
-
-
+    $("#results").append("<div><ul> <li id='result'" + i + ">" + "<a href='" + url +   "   '>" + title + "</a>" + "<br>" + summary + "..." + "</li> </ul></div>");
   }
 }
 
